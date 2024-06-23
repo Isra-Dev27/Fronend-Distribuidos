@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captura de Artículos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .capture-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .capture-container input, .capture-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .capture-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .capture-container button:hover {
+            background-color: #45a049;
+        }
+
+        .close-button {
+            background-color: #f44336;
+        }
+
+        .close-button:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <div class="capture-container">
+        <h2>Captura de Artículos</h2>
+        <input type="text" placeholder="Nombre del Artículo" id="nombreArticulo">
+        <textarea placeholder="Descripción del Artículo" id="descripcionArticulo"></textarea>
+        <input type="number" placeholder="Precio" id="precioArticulo">
+        <input type="number" placeholder="Número de Artículos en Existencia" id="cantidadArticulo">
+        <input type="text" placeholder="Relevancia del Artículo" id="relevanciaArticulo">
+        <input type="file" id="fotoArticulo">
+        <button onclick="capturarArticulo()">Guardar Artículo</button>
+        <button class="close-button" onclick="cerrarVentana()">Cerrar</button>
+    </div>
+
+    <script>
+        function capturarArticulo() {
+            const nombre = document.getElementById('nombreArticulo').value;
+            const descripcion = document.getElementById('descripcionArticulo').value;
+            const precio = document.getElementById('precioArticulo').value;
+            const cantidad = document.getElementById('cantidadArticulo').value;
+            const relevancia = document.getElementById('relevanciaArticulo').value;
+            const foto = document.getElementById('fotoArticulo').files[0];
+
+            // Aquí puedes agregar la lógica para guardar el artículo
+
+            alert('Artículo guardado:\n' +
+                  'Nombre: ' + nombre + '\n' +
+                  'Descripción: ' + descripcion + '\n' +
+                  'Precio: ' + precio + '\n' +
+                  'Cantidad: ' + cantidad + '\n' +
+                  'Relevancia: ' + relevancia);
+
+            cerrarVentana();
+        }
+
+        function cerrarVentana() {
+            window.location.href = 'Main.html';
+        }
+    </script>
+</body>
+</html>
