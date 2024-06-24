@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .cart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            background-color: #e7e7e7;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .cart-item img {
+            max-width: 100px;
+            margin-right: 10px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cart-item button:hover {
+            background-color: #e53935;
+        }
+
+        .total-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .total-container p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h2>Carrito de Compras</h2>
+        <div id="cartItems"></div>
+        <div class="total-container">
+            <p>Total: $<span id="total"></span></p>
+            <p>Total con IVA (16%): $<span id="totalIVA"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function cargarCarrito() {
+            const cartItems = JSON.parse(localStorage.getItem('carrito')) || [];
+            const cartItemsContainer = document.getElementById('cartItems');
+            cartItemsContainer.innerHTML = '';
+
+            if (cartItems.length === 0) {
+                cartItemsContainer.innerHTML = '<p>No hay artículos en el carrito</p>';
+                return;
+            }
+
+            cartItems.forEach((item, index) => {
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.classList.add('cart-item');
+
+                const cartItemInfo = document.createElement('div');
+                cartItemInfo.classList.add('cart-item-info');
+
+                cartItemInfo.innerHTML = `
+                    <h3>${item.nombre}</h3>
+                    <p>${item.descripcion}</p>
+                    <p>Precio: $${item.precio}</p>
+                    <p>Cantidad: ${item.cantidad}</p>
+                `;
+
+                const img = document.createElement('img');
+                img.src = item.foto;
+                img.alt = item.nombre;
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Eliminar';
+                removeButton.onclick = () => eliminarArticulo(index);
+
+                cartItemDiv.appendChild(img);
+                cartItemDiv.appendChild(cartItemInfo);
+                cartItemDiv.appendChild(removeButton);
+                cartItemsContainer.appendChild(cartItemDiv);
+            });
+
+            actualizarTotal();
+        }
+
+        function eliminarArticulo(index) {
+            const cartItems = JSON.parse(localStorage.getItem('carrito')) || [];
+            cartItems.splice(index, 1);
+            localStorage.setItem('carrito', JSON.stringify(cartItems));
+            cargarCarrito();
+        }
+
+        function actualizarTotal() {
+            const cartItems = JSON.parse(localStorage.getItem('carrito')) || [];
+            let total = 0;
+            cartItems.forEach(item => {
+                total += item.precio * item.cantidad;
+            });
+            const totalIVA = total * 1.16;
+
+            document.getElementById('total').textContent = total.toFixed(2);
+            document.getElementById('totalIVA').textContent = totalIVA.toFixed(2);
+        }
+
+        document.addEventListener('DOMContentLoaded', cargarCarrito);
+    </script>
+</body>
+</html>

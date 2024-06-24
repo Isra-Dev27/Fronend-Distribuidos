@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Artículos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-results {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .article {
+            background-color: #e7e7e7;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .article img {
+            max-width: 100px;
+            margin-right: 10px;
+        }
+
+        .article-info {
+            flex: 1;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-controls button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-controls button:hover {
+            background-color: #45a049;
+        }
+
+        .quantity-controls span {
+            width: 30px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .buy-button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .buy-button:hover {
+            background-color: #1976D2;
+        }
+
+        .view-cart-button {
+            background-color: #FF9800;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-cart-button:hover {
+            background-color: #FB8C00;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <h2>Buscar Artículos</h2>
+        <input type="text" placeholder="Buscar por nombre o descripción" id="searchInput" oninput="buscarArticulos()">
+        <div class="search-results" id="searchResults"></div>
+        <button class="view-cart-button" onclick="verCarrito()">Ver Carrito</button>
+    </div>
+
+    <script>
+        // Arreglo de artículos con imágenes agregadas mediante URL de internet
+        let articulos = [
+            {
+                nombre: 'Laptop',
+                descripcion: 'Laptop de alta gama con 16GB de RAM y 512GB SSD.',
+                precio: 1500,
+                cantidad: 5,
+                relevancia: 'Alta',
+                foto: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3'
+            },
+            {
+                nombre: 'Smartphone',
+                descripcion: 'Smartphone con pantalla AMOLED y cámara de 48MP.',
+                precio: 800,
+                cantidad: 10,
+                relevancia: 'Media',
+                foto: 'https://images.unsplash.com/photo-1573307385538-40c20e6cfd1b'
+            },
+            {
+                nombre: 'Audífonos',
+                descripcion: 'Audífonos inalámbricos con cancelación de ruido.',
+                precio: 200,
+                cantidad: 15,
+                relevancia: 'Baja',
+                foto: 'https://images.unsplash.com/photo-1519985176271-adb1088fa94c'
+            }
+        ];
+
+        let carrito = [];
+
+        function buscarArticulos() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const results = articulos.filter(articulo => 
+                articulo.nombre.toLowerCase().includes(query) || 
+                articulo.descripcion.toLowerCase().includes(query)
+            );
+
+            mostrarResultados(results);
+        }
+
+        function mostrarResultados(articulos) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+
+            if (articulos.length === 0) {
+                searchResults.innerHTML = '<p>No se encontraron artículos</p>';
+                return;
+            }
+
+            articulos.forEach((articulo, index) => {
+                const articleDiv = document.createElement('div');
+                articleDiv.classList.add('article');
+
+                const articleInfo = document.createElement('div');
+                articleInfo.classList.add('article-info');
+
+                articleInfo.innerHTML = `
+                    <h3>${articulo.nombre}</h3>
+                    <p>${articulo.descripcion}</p>
+                    <p>Precio: $${articulo.precio}</p>
+                    <p>Cantidad en existencia: ${articulo.cantidad}</p>
+                    <p>Relevancia: ${articulo.relevancia}</p>
+                `;
+
+                const img = document.createElement('img');
+                img.src = articulo.foto;
+                img.alt = articulo.nombre;
+
+                const quantityControls = document.createElement('div');
+                quantityControls.classList.add('quantity-controls');
+
+                const decreaseButton = document.createElement('button');
+                decreaseButton.textContent = '-';
+                decreaseButton.onclick = () => changeQuantity(index, -1);
+
+                const quantitySpan = document.createElement('span');
+                quantitySpan.textContent = 1;
+                quantitySpan.id = `quantity-${index}`;
+
+                const increaseButton = document.createElement('button');
+                increaseButton.textContent = '+';
+                increaseButton.onclick = () => changeQuantity(index, 1);
+
+                const buyButton = document.createElement('button');
+                buyButton.textContent = 'Comprar';
+                buyButton.classList.add('buy-button');
+                buyButton.onclick = () => comprarArticulo(articulo, quantitySpan.textContent);
+
+                quantityControls.appendChild(decreaseButton);
+                quantityControls.appendChild(quantitySpan);
+                quantityControls.appendChild(increaseButton);
+
+                articleDiv.appendChild(img);
+                articleDiv.appendChild(articleInfo);
+                articleDiv.appendChild(quantityControls);
+                articleDiv.appendChild(buyButton);
+                searchResults.appendChild(articleDiv);
+            });
+        }
+
+        function changeQuantity(index, delta) {
+            const quantitySpan = document.getElementById(`quantity-${index}`);
+            let currentQuantity = parseInt(quantitySpan.textContent);
+            currentQuantity = Math.max(1, currentQuantity + delta); // No permitir cantidad menor a 1
+            quantitySpan.textContent = currentQuantity;
+        }
+
+        function comprarArticulo(articulo, cantidad) {
+            const itemCarrito = {
+                ...articulo,
+                cantidad: parseInt(cantidad)
+            };
+            carrito.push(itemCarrito);
+            alert(`Has añadido ${cantidad} unidades de ${articulo.nombre} al carrito.`);
+        }
+
+        function verCarrito() {
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            window.location.href = 'carrito.html';
+        }
+    </script>
+</body>
+</html>
+

@@ -52,9 +52,6 @@
         <button class="button" onclick="agregarProducto()">Agregar Producto</button>
         <button class="button button2" onclick="capturaArticulo()">Captura de Artículo</button>
     </div>
-    <button id="callApiButton" onclick="callAzureFunction()">Llamar a la API</button>
-    <div id="response"></div>
-
     
 
     <script>
@@ -66,7 +63,6 @@
             window.location.href = 'captura_articulo.html';
         }
 
-        
 
         async function callAzureFunction() {
             try {
@@ -86,4 +82,3 @@
     </script>
 </body>
 </html>
-

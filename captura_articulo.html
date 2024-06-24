@@ -75,6 +75,8 @@
     </div>
 
     <script>
+        let articulos = [];
+
         function capturarArticulo() {
             const nombre = document.getElementById('nombreArticulo').value;
             const descripcion = document.getElementById('descripcionArticulo').value;
@@ -83,7 +85,16 @@
             const relevancia = document.getElementById('relevanciaArticulo').value;
             const foto = document.getElementById('fotoArticulo').files[0];
 
-            // Aquí puedes agregar la lógica para guardar el artículo
+            const articulo = {
+                nombre,
+                descripcion,
+                precio,
+                cantidad,
+                relevancia,
+                foto: foto ? URL.createObjectURL(foto) : null
+            };
+
+            articulos.push(articulo);
 
             alert('Artículo guardado:\n' +
                   'Nombre: ' + nombre + '\n' +
@@ -91,6 +102,8 @@
                   'Precio: ' + precio + '\n' +
                   'Cantidad: ' + cantidad + '\n' +
                   'Relevancia: ' + relevancia);
+
+            console.log(articulos);
 
             cerrarVentana();
         }
