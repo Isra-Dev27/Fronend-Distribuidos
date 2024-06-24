@@ -23,6 +23,9 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .cart-container h2 {
@@ -38,6 +41,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
+            flex-wrap: wrap;
         }
 
         .cart-item img {
@@ -47,6 +51,7 @@
 
         .cart-item-info {
             flex: 1;
+            min-width: 200px;
         }
 
         .cart-item button {
@@ -66,10 +71,22 @@
         .total-container {
             margin-top: 20px;
             text-align: center;
+            width: 100%;
         }
 
         .total-container p {
             margin: 5px 0;
+        }
+
+        @media (max-width: 600px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cart-item img {
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>

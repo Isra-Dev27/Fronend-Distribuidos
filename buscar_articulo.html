@@ -23,6 +23,9 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .search-container input {
@@ -31,6 +34,7 @@
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;
         }
 
         .search-results {
@@ -45,6 +49,7 @@
             margin-bottom: 10px;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .article img {
@@ -54,11 +59,13 @@
 
         .article-info {
             flex: 1;
+            min-width: 200px;
         }
 
         .quantity-controls {
             display: flex;
             align-items: center;
+            margin-top: 10px;
         }
 
         .quantity-controls button {
@@ -118,6 +125,21 @@
 
         .view-cart-button:hover {
             background-color: #FB8C00;
+        }
+
+        @media (max-width: 600px) {
+            .article {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .article img {
+                margin-bottom: 10px;
+            }
+
+            .quantity-controls {
+                margin-top: 5px;
+            }
         }
     </style>
 </head>
