@@ -52,6 +52,10 @@
         <button class="button" onclick="agregarProducto()">Agregar Producto</button>
         <button class="button button2" onclick="capturaArticulo()">Captura de Artículo</button>
     </div>
+    <button id="callApiButton">Llamar a la API</button>
+    <div id="apiResponse"></div>
+
+    
 
     <script>
         function agregarProducto() {
@@ -61,6 +65,24 @@
         function capturaArticulo() {
             window.location.href = 'captura_articulo.html';
         }
+
+        document.getElementById("callApiButton").addEventListener("click", callApi);
+
+function callApi() {
+    fetch('/api/hello')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("apiResponse").innerText = JSON.stringify(data);
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}
     </script>
 </body>
 </html>
