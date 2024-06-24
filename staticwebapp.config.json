@@ -1,9 +1,0 @@
-{
-    "routes": [
-      {
-        "route": "/api/*",
-        "rewrite": "https://t9-2020630539-a.azurewebsites.net/api/*"
-      }
-    ]
-  }
-  
